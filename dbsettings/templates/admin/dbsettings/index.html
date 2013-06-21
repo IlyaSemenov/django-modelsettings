@@ -1,0 +1,30 @@
+{% extends "admin/index.html" %}
+{% load i18n admin_static %}
+{% load url from future %}
+
+{% block breadcrumbs %}
+	<div class="breadcrumbs">
+		<a href="{% url 'admin:index' %}">{% trans 'Home' %}</a>
+		&rsaquo; {% trans 'Settings' %}
+	</div>
+{% endblock %}
+
+{% block sidebar %}{% endblock %}
+
+{% block content %}
+	<div id="content-main">
+		<div class="module">
+			<table summary="Settings">
+				<caption>Settings</caption>
+				<tbody>
+					{% for app in apps %}
+						<tr>
+							<th scope="row"><a href="{{ app.url }}">{% blocktrans with name=app.name %}{{ name }}{% endblocktrans %}</a></th>
+							<td><a href="{{ app.url }}" class="changelink">{% trans 'Change' %}</a></td>
+						</tr>
+					{% endfor %}
+				</tbody>
+			</table>
+		</div>
+	</div>
+{% endblock %}
