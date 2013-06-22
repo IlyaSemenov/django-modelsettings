@@ -1,3 +1,4 @@
+import django.conf
 from models import Root, registered_settings
 
 class SettingsProxy(object):
@@ -36,4 +37,4 @@ class SettingsProxy(object):
 		self.__dict__.clear()
 		self._fetched = False
 
-settings = SettingsProxy()
+settings = django.conf.settings.db = SettingsProxy()
