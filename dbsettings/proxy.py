@@ -24,7 +24,11 @@ class SettingsProxy(object):
 		for app_label, classes in registered_settings.items():
 			for model_name, klass in classes.items():
 				f = '%s_%s' % (app_label, model_name)
-				v = getattr(root, f)
+				try:
+					v = getattr(root, f)
+				except klass.DoesNotExist:
+					# Django 1.5+
+					v = None
 				if not v:
 					# Doesn't yet exist in the database
 					v = klass(root=root)
