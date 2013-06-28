@@ -14,7 +14,7 @@ Key points
 
 3. Each application may have any number of setting groups, however there is no fancy and complex syntax for that. The developer may simply add more `Settings` classes if he decides so.
 
-4. The settings are lazy. The database is not hit until the settings are actually accessed. Then it takes exactly one SQL query to fetch all the settings (it uses `select_related` internally). The system behaves correctly when there is no data in the database (if the settings have never been saved yet, or have been saved partly).
+4. The settings are lazy and effective. The database is not hit until the settings are actually accessed. Then it takes exactly one SQL query to fetch all the settings (it uses `select_related` internally), which may be further be optimized by using Django caching framework. The system behaves correctly when there is no data in the database (if the settings have never been saved yet, or have been saved partly).
 
 5. Programmatically, all settings from all application are nicely accessible via a single object.
 
@@ -27,9 +27,9 @@ Register the application in `settings.py`:
 
 ```python
 INSTALLED_APPS =
-    ...
-    'dbsettings',
-    ...
+	...
+	'dbsettings',
+	...
 ```
 
 Create a `Settings` class in your application's `models.py`:
@@ -38,9 +38,9 @@ Create a `Settings` class in your application's `models.py`:
 import dbsettings
 
 class Settings(dbsettings.Settings):
-    contact_email = models.EmailField(default="info@localhost")
-    update_interval = models.PositiveIntegerField(null=True, default=10, help_text="Update interval in seconds")
-    facebook_app_id = models.CharField("Facebook App ID", max_length=32, blank=True)
+	contact_email = models.EmailField(default="info@localhost")
+	update_interval = models.PositiveIntegerField(null=True, default=10, help_text="Update interval in seconds")
+	facebook_app_id = models.CharField("Facebook App ID", max_length=32, blank=True)
 ```
 
 In your business logic code, use settings like that:
@@ -63,7 +63,21 @@ dbsettings.add_to_admin(admin.site)
 admin.autodiscover()
 ```
 
-The admin area will be accessible at [http://localhost:8000/admin/settings/](http://localhost:8000/admin/settings/) (or under other prefix which you chose for `admin.urls`).
+The admin area will be accessible at [http://localhost:8000/admin/settings/](http://localhost:8000/admin/settings/) (or under other prefix which you chose for `admin.site.urls`).
+
+### Production
+
+In production environment you will need to invalidate settings on time (read more on caching and invalidation options in [Caching](#caching) below):
+
+```python
+MIDDLEWARE_CLASSES =
+	...
+	'dbsettings.middleware.InvalidateSettingsMiddleware',
+	...
+```
+
+Advanced
+--------
 
 ### Several groups of settings per application
 
@@ -73,13 +87,13 @@ Sometimes it is convenient to split settings into several groups within one appl
 import dbsettings
 
 class FooSettings(dbsettings.Settings):
-    option1 = models.IntegerField()
-    
+	option1 = models.IntegerField()
+
 class BarSettings(dbsettings.Settings):
-    option2 = models.IntegerField()
-    
+	option2 = models.IntegerField()
+
 class Settings(dbsettings.Settings): # not required
-    option3 = models.IntegerField()
+	option3 = models.IntegerField()
 
 ...
 
@@ -92,16 +106,9 @@ print settings.blog.option3
 
 Yes, I realize that `settings.blog.foo.option1` would make it cleaner, and I may try to implement this in future.
 
-### Naming clash with django.conf.settings
+### Adding/changing settings definitions in an existing group
 
-Unfortunaly, `dbsettings.settings` clashes with `django.conf.settings` so you can't import both into the same namespace. In this case, stick to `django.conf.settings` and access dbsettings like that:
-
-```python
-from django.conf import settings
-
-print settings.SECRET_KEY
-print settings.db.blog.contact_email
-```
+When you add or change settings in an existing `Settings` group, you need to adjust the database correspondingly. **django-modelsettings** is fully compatible with [South](http://south.aeracode.org/) database migration tool, so normally what it takes is simply running `./manage.py schemamigration blog --auto && ./manage.py migrate blog`.
 
 ### Customizing the admin area
 
@@ -114,7 +121,7 @@ from blog.models import Settings
 
 class SettingsForm(forms.ModelForm):
     class Meta:
-  	model = Settings
+      model = Settings
         
     def clean(self):
         # your logic goes here
@@ -149,15 +156,28 @@ Then you access settings like this:
 
 ### Caching
 
-Currently the caching is not implemented, and each HTTP request which uses settings will hit the database. In some circumstances (multi-threaded environment) the settings need to be explicitly invalidated on each request.
+There are two tiers of caching data in dbsettings:
 
+1. By default settings are cached in dbsettings.settings (a Python object). When running in multi-process environment (such as nginx+UWSGI) this needs to be invalidated from time to time to ensure that all worker processes catch changes made by the other processes. Typically, you would do that on each HTTP request by including the provided middleware:
+	```python
+	MIDDLEWARE_CLASSES =
+		...
+		'dbsettings.middleware.InvalidateSettingsMiddleware',
+		...
+	```
+
+2. **(Not currently implemented)** Additionally, settings may be cached using [Django caching framework](https://docs.djangoproject.com/en/dev/topics/cache/). If this is enabled, when settings are about to be read from the database (either on first access, or after invalidation) they will first be tried to be retrieved from Django cache.
 ```python
-MIDDLEWARE_CLASSES =
-    ...
-    'dbsettings.middleware.InvalidateSettingsMiddleware',
-    ...
+DBSETTINGS_CACHE_ALIAS = 'default' # Django cache alias to use
 ```
 
-### Adding/changing settings definitions in an existing group
+### Naming clash with django.conf.settings
 
-When you add or change settings in an existing `Settings` group, you need to adjust the database correspondingly. **django-modelsettings** is fully compatible with [South](http://south.aeracode.org/) database migration tool, so normally what it takes is simply running `./manage.py schemamigration blog --auto && ./manage.py migrate blog`.
+Unfortunately, `dbsettings.settings` clashes with `django.conf.settings` so you can't import both into the same namespace. In this case, stick to `django.conf.settings` and access dbsettings like that:
+
+```python
+from django.conf import settings
+
+print settings.SECRET_KEY
+print settings.db.blog.contact_email
+```
