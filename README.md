@@ -43,6 +43,10 @@ class Settings(dbsettings.Settings):
 	facebook_app_id = models.CharField("Facebook App ID", max_length=32, blank=True)
 ```
 
+Create the corresponding database tables: `./manage.py syncdb`.
+If you use [South](http://south.aeracode.org/) database migration tool, run
+`./manage.py schemamigration blog --auto && ./manage.py migrate blog` instead, where `blog` is your application's name.
+
 In your business logic code, use settings like that:
 
 ```python
@@ -63,9 +67,24 @@ dbsettings.add_to_admin(admin.site)
 admin.autodiscover()
 ```
 
-The admin area will be accessible at [http://localhost:8000/admin/settings/](http://localhost:8000/admin/settings/) (or under other prefix which you chose for `admin.site.urls`).
+The admin area will be accessible at [http://localhost:8000/admin/settings/](http://localhost:8000/admin/settings/) (or under other prefix which you chose for `admin.site.urls`). To add a link to Settings page to the admin site header, create `admin/base_site.html` template:
 
-### Production
+```html
+{% extends "admin/base.html" %}
+{% load i18n %}
+
+{% block branding %}
+	<h1 id="site-name">
+		<a href="{% url 'admin:index' %}">{% trans "Administration" %}</a> |
+		{% if user.is_superuser %}
+			<a href="{% url 'admin:settings' %}">{% trans "Settings" %}</a> |
+		{% endif %}
+		<a href="/">{% trans "Back to site" %}</a>
+	</h1>
+{% endblock %}
+```
+
+### Production (or multi-threaded development)
 
 In production environment you will need to invalidate settings on time (read more on caching and invalidation options in [Caching](#caching) below):
 
@@ -105,10 +124,6 @@ print settings.blog.option3
 ```
 
 Yes, I realize that `settings.blog.foo.option1` would make it cleaner, and I may try to implement this in future.
-
-### Adding/changing settings definitions in an existing group
-
-When you add or change settings in an existing `Settings` group, you need to adjust the database correspondingly. **django-modelsettings** is fully compatible with [South](http://south.aeracode.org/) database migration tool, so normally what it takes is simply running `./manage.py schemamigration blog --auto && ./manage.py migrate blog`.
 
 ### Customizing the admin area
 
