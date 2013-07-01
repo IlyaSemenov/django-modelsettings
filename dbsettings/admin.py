@@ -48,7 +48,12 @@ def add_to_admin(admin_site):
 				Form = model_admin.get_form(request, instance)
 				form = Form(prefix=model_name, data=request.POST or None, instance=instance)
 				forms.append(form)
-				fieldsets.append(Fieldset(form, '%s %s' % (app_name.title(), model._meta.verbose_name),	fields=form.fields.keys()))
+				fieldsets.append(Fieldset(
+					form,
+					name = '%s %s' % (app_name.title(), model._meta.verbose_name),
+					fields = form.fields.keys() + list(model_admin.readonly_fields),
+					readonly_fields = model_admin.readonly_fields,
+				))
 			if all([form.is_valid() for form in forms]): # list to make all of them evaluate
 				for form in forms:
 					form.save()
