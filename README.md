@@ -188,11 +188,20 @@ DBSETTINGS_CACHE_ALIAS = 'default' # Django cache alias to use
 
 ### Naming clash with django.conf.settings
 
-Unfortunately, `dbsettings.settings` clashes with `django.conf.settings` so you can't import both into the same namespace. In this case, stick to `django.conf.settings` and access dbsettings like that:
+Unfortunately, `dbsettings.settings` clashes with `django.conf.settings` so you can't import both into the same namespace. In this case, use one of the provided shortcuts to access the counterpart object:
 
 ```python
 from django.conf import settings
 
 print settings.SECRET_KEY
 print settings.db.blog.contact_email
+```
+
+or:
+
+```python
+from dbsettings import settings
+
+print settings.blog.contact_email
+print settings.django.SECRET_KEY
 ```

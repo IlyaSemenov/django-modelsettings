@@ -42,3 +42,4 @@ class SettingsProxy(object):
 		self._fetched = False
 
 settings = django.conf.settings.db = SettingsProxy()
+settings.django = django.conf.settings
