@@ -44,8 +44,8 @@ class Settings(dbsettings.Settings):
 ```
 
 Create the corresponding database tables: `./manage.py syncdb`.
-If you use [South](http://south.aeracode.org/) database migration tool, run
-`./manage.py schemamigration blog --auto && ./manage.py migrate blog` instead, where `blog` is your application's name.
+If you use [South](http://south.aeracode.org/) database migration tool, also run
+`./manage.py schemamigration blog --auto && ./manage.py migrate blog`, where `blog` is your application's name.
 
 In your business logic code, use settings like that:
 
@@ -181,7 +181,7 @@ There are two tiers of caching data in dbsettings:
 		...
 	```
 
-2. **(Not currently implemented)** Additionally, settings may be cached using [Django caching framework](https://docs.djangoproject.com/en/dev/topics/cache/). If this is enabled, when settings are about to be read from the database (either on first access, or after invalidation) they will first be tried to be retrieved from Django cache.
+2. **(Not currently implemented)** Additionally, settings may be cached using [Django caching framework](https://docs.djangoproject.com/en/dev/topics/cache/). If this is enabled, when settings are about to be read from the database (either on first access, or after invalidation), an attempt will be made to retrieve them from Django cache.
 ```python
 DBSETTINGS_CACHE_ALIAS = 'default' # Django cache alias to use
 ```
