@@ -14,7 +14,7 @@ Key points
 
 3. Each application may have any number of setting groups, however there is no fancy and complex syntax for that. The developer may simply add more `Settings` classes if he decides so.
 
-4. The settings are lazy and effective. The database is not hit until the settings are actually accessed. Then it takes exactly one SQL query to fetch all the settings (it uses `select_related` internally), which may be further be optimized by using Django caching framework. The system behaves correctly when there is no data in the database (if the settings have never been saved yet, or have been saved partly).
+4. The settings are lazy and effective. The database is not hit until the settings are actually accessed. Then it takes exactly one SQL query to fetch all the settings (it uses `select_related` internally), which may further be optimized by using Django caching framework. The system behaves correctly when there is no data in the database (if the settings have never been saved yet, or have been saved partly).
 
 5. Programmatically, all settings from all application are nicely accessible via a single object.
 
@@ -57,6 +57,8 @@ print settings.blog.contact_email # where blog is your application's name
 settings.blog.update_interval = 60
 settings.blog.save()
 ```
+
+### Admin area
 
 Enable the admin area by adding this before you do the autodiscover (normally in `urls.py`):
 
@@ -150,7 +152,7 @@ class SettingsAdmin(admin.ModelAdmin):
 
 admin.site.register_settings(Settings, SettingsAdmin)
 ```
-This is not required to explicitly register all Settings classes, it is only needed if you need to override the default behavior.
+This is not required to explicitly register all Settings classes, it is only needed if you want to override the default behavior.
 
 ### Accessing from templates
 
