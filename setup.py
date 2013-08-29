@@ -8,14 +8,14 @@ which are stored in database models
 
 setup(
 	name='django-modelsettings',
-	version='0.1',
+	version='0.1.1',
 	url='https://github.com/IlyaSemenov/django-modelsettings',
 	license='BSD',
 	author='Ilya Semenov',
 	author_email='me@ilyasemenov.com',
 	description='django user-adjastable settings',
 	long_description=__doc__,
-	packages=['django_modelsettings'],
+	packages=['dbsettings'],
 	include_package_data=True,
 	zip_safe=False,
 	platforms='any',
