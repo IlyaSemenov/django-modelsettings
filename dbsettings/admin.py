@@ -9,9 +9,11 @@ from django.template.response import TemplateResponse
 from models import registered_settings
 from proxy import settings
 
+
 class FakeOpts(object):
 	def get_ordered_objects(self):
 		return None
+
 
 def add_to_admin(admin_site):
 	class AdminSite(admin_site.__class__):

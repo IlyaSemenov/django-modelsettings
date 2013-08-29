@@ -1,7 +1,9 @@
 from django.db import models
 from django.db.models.base import ModelBase
 
+
 registered_settings = {}
+
 
 class SettingsDefiningClass(ModelBase):
 	def __new__(cls, name, bases, attrs):
@@ -13,8 +15,10 @@ class SettingsDefiningClass(ModelBase):
 			registered_settings[meta.app_label][meta.module_name] = new_class
 		return new_class
 
+
 class Root(models.Model):
 	pass
+
 
 class Settings(models.Model):
 	__metaclass__ = SettingsDefiningClass

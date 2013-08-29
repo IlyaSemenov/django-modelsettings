@@ -1,6 +1,7 @@
 import django.conf
 from models import Root, registered_settings
 
+
 class SettingsProxy(object):
 	def __init__(self):
 		self._fetched = False
@@ -40,6 +41,7 @@ class SettingsProxy(object):
 	def invalidate(self):
 		self.__dict__.clear()
 		self._fetched = False
+
 
 settings = django.conf.settings.db = SettingsProxy()
 settings.django = django.conf.settings
