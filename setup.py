@@ -8,7 +8,7 @@ which are stored in database models
 
 setup(
 	name='django-modelsettings',
-	version='0.1.1',
+	version='0.1.2',
 	url='https://github.com/IlyaSemenov/django-modelsettings',
 	license='BSD',
 	author='Ilya Semenov',
@@ -16,7 +16,7 @@ setup(
 	description='django user-adjastable settings',
 	long_description=__doc__,
 	packages=['dbsettings'],
-	include_package_data=True,
+	package_data = {"dbsettings": ["templates/admin/dbsettings/*.html"]},
 	zip_safe=False,
 	platforms='any',
 	install_requires=[],
