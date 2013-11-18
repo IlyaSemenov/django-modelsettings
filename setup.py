@@ -8,7 +8,7 @@ which are stored in database models
 
 setup(
 	name='django-modelsettings',
-	version='0.1.2',
+	version='0.1.3',
 	url='https://github.com/IlyaSemenov/django-modelsettings',
 	license='BSD',
 	author='Ilya Semenov',
@@ -29,6 +29,7 @@ setup(
 		'License :: OSI Approved :: BSD License',
 		'Operating System :: OS Independent',
 		'Programming Language :: Python',
+		'Programming Language :: Python :: 3.3',
 		'Topic :: Software Development :: Libraries :: Python Modules',
 		'Topic :: Internet',
 		'Topic :: Scientific/Engineering',
