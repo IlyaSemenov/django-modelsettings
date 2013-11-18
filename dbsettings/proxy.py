@@ -1,5 +1,5 @@
 import django.conf
-from models import Root, registered_settings
+from .models import Root, registered_settings
 
 
 class SettingsProxy(object):
