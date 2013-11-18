@@ -6,8 +6,8 @@ from django.contrib.admin.helpers import Fieldset
 from django.core.urlresolvers import reverse
 from django.shortcuts import Http404, redirect
 from django.template.response import TemplateResponse
-from models import registered_settings
-from proxy import settings
+from .models import registered_settings
+from .proxy import settings
 
 
 class FakeOpts(object):
@@ -53,7 +53,7 @@ def add_to_admin(admin_site):
 				fieldsets.append(Fieldset(
 					form,
 					name = '%s %s' % (app_name.title(), model._meta.verbose_name),
-					fields = form.fields.keys() + list(model_admin.readonly_fields),
+					fields = list(form.fields.keys()) + list(model_admin.readonly_fields),
 					readonly_fields = model_admin.readonly_fields,
 				))
 			if all([form.is_valid() for form in forms]): # list to make all of them evaluate

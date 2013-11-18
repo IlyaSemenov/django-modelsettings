@@ -1,4 +1,4 @@
-from proxy import settings
+from .proxy import settings
 
 
 class InvalidateSettingsMiddleware(object):

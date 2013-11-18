@@ -1,5 +1,5 @@
-import proxy
+from .proxy import settings as proxy
 
 
 def settings(request):
-	return {'settings': proxy.settings}
+	return {'settings': proxy}
