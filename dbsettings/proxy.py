@@ -3,6 +3,8 @@ from .models import Root, registered_settings
 
 
 class SettingsProxy(object):
+	django = django.conf.settings
+
 	def __init__(self):
 		self._fetched = False
 
@@ -20,7 +22,7 @@ class SettingsProxy(object):
 		try:
 			root = qs[0]
 		except IndexError:
-			root, created = qs.get_or_create(defaults={})
+			qs.get_or_create(defaults={})
 			root = qs[0] # Run select_related again
 		for app_label, classes in registered_settings.items():
 			for model_name, klass in classes.items():
@@ -44,4 +46,3 @@ class SettingsProxy(object):
 
 
 settings = django.conf.settings.db = SettingsProxy()
-settings.django = django.conf.settings

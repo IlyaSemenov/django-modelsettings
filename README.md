@@ -1,7 +1,7 @@
 django-modelsettings
 ====================
 
-This Django application allows to create user-adjustable application settings which are stored in database models. 
+This Django application allows to create user-adjustable application settings which are defined and stored using Django ORM models.
 
 Please check the other alternatives at [https://www.djangopackages.com/grids/g/live-setting/](https://www.djangopackages.com/grids/g/live-setting/). This project started because I tried them all and I was not really happy with any of them.
 

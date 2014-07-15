@@ -8,12 +8,12 @@ which are stored in database models
 
 setup(
 	name='django-modelsettings',
-	version='0.1.3',
+	version='0.1.4',
 	url='https://github.com/IlyaSemenov/django-modelsettings',
 	license='BSD',
 	author='Ilya Semenov',
-	author_email='me@ilyasemenov.com',
-	description='django user-adjastable settings',
+	author_email='ilya@semenov.co',
+	description='Django application settings defined and stored using Django ORM models',
 	long_description=__doc__,
 	packages=['dbsettings'],
 	package_data = {"dbsettings": ["templates/admin/dbsettings/*.html"]},
