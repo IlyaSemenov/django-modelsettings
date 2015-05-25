@@ -48,7 +48,7 @@ def add_to_admin(admin_site):
 				if not model_admin:
 					model_admin = ModelAdmin(model, self)
 				Form = model_admin.get_form(request, instance)
-				form = Form(prefix=model_name, data=request.POST or None, instance=instance)
+				form = Form(prefix=model_name, data=request.POST or None, instance=instance, files=request.FILES or None)
 				forms.append(form)
 				fieldsets.append(Fieldset(
 					form,
