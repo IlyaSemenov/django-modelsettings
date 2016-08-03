@@ -113,7 +113,7 @@ Enable the admin area by adding a route:
 	import dbsettings.urls
 
 	urlpatterns = [
-       	url(r'^admin/settings/', include(dbsettings.urls)),
+		url(r'^admin/settings/', include(dbsettings.urls)),
 		...
 	]
 
