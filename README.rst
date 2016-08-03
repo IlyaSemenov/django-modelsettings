@@ -130,6 +130,8 @@ It is possible to split settings into several groups within one application.
 
 .. code:: python
 
+	# blog/models.py
+
 	from dbsettings.models import BaseSettings
 
 	class Settings(BaseSettings):
@@ -141,7 +143,8 @@ It is possible to split settings into several groups within one application.
 	class Bar(BaseSettings):
 		option3 = models.IntegerField()
 
-	...
+
+.. code:: python
 
 	from dbsettings import settings
 
