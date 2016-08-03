@@ -148,10 +148,10 @@ It is possible to split settings into several groups within one application.
 	class Settings(BaseSettings):
 		option1 = models.IntegerField()
 
-	class FooSettings(BaseSettings):
+	class Foo(BaseSettings):
 		option2 = models.IntegerField()
 
-	class BarSettings(BaseSettings):
+	class Bar(BaseSettings):
 		option3 = models.IntegerField()
 
 	...
@@ -159,5 +159,5 @@ It is possible to split settings into several groups within one application.
 	from dbsettings import settings
 
 	print(settings.blog.option1)
-	print(settings.blog_foosettings.option2)
-	print(settings.blog_barsettings.option3)
+	print(settings.blog_foo.option2)
+	print(settings.blog_bar.option3)
