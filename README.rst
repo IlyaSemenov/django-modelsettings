@@ -118,22 +118,9 @@ Enable the admin area by adding a route:
 	]
 
 
-To add a link to Settings page to the admin site header, add ``admin/base_site.html`` template to your project:
+The settings will be available under Admin > Dbsettings > Settings.
 
-.. code:: html
-
-	{% extends "admin/base.html" %}
-	{% load i18n %}
-
-	{% block branding %}
-		<h1 id="site-name">
-			<a href="{% url 'admin:index' %}">{% trans "Administration" %}</a> |
-			{% if user.is_staff %}
-				<a href="{% url 'dbsettings' %}">{% trans "Settings" %}</a> |
-			{% endif %}
-			<a href="/">{% trans "Back to site" %}</a>
-		</h1>
-	{% endblock %}
+You can also add a direct link with ``<a href="{% url 'dbsettings' %}">{% trans "Settings" %}</a>`` (e.g. in your ``admin/base_site.html`` overrides).
 
 
 Several groups of settings per application
