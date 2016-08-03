@@ -7,7 +7,7 @@ Define Django application settings with Django ORM models and edit them in the a
 
 setup(
 	name='django-modelsettings',
-	version='0.2.1',
+	version='0.2.2',
 	url='https://github.com/IlyaSemenov/django-modelsettings',
 	license='BSD',
 	author='Ilya Semenov',
