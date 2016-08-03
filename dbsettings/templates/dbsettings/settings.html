@@ -1,12 +1,10 @@
 {% extends "admin/change_form.html" %}
 {% load i18n admin_modify %}
-{% load url from future %}
 
 {% block breadcrumbs %}
 	<div class="breadcrumbs">
 		<a href="{% url 'admin:index' %}">{% trans 'Home' %}</a>
-		&rsaquo; <a href="{% url 'admin:settings' %}">{% trans 'Settings' %}</a>
-		&rsaquo; {% blocktrans with name=app_name %}{{ name }}{% endblocktrans %}
+		&rsaquo; {% trans "Settings" %}
 	</div>
 {% endblock %}
 

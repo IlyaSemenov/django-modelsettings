@@ -1,3 +1,5 @@
-from .models import Settings
-from .proxy import settings
-from .admin import add_to_admin
+import django.conf
+
+from .settings import settings
+
+django.conf.settings.db = settings
