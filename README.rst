@@ -128,8 +128,8 @@ To add a link to Settings page to the admin site header, add ``admin/base_site.h
 	{% block branding %}
 		<h1 id="site-name">
 			<a href="{% url 'admin:index' %}">{% trans "Administration" %}</a> |
-			{% if user.is_superuser %}
-				<a href="{% url 'admin:settings' %}">{% trans "Settings" %}</a> |
+			{% if user.is_staff %}
+				<a href="{% url 'dbsettings' %}">{% trans "Settings" %}</a> |
 			{% endif %}
 			<a href="/">{% trans "Back to site" %}</a>
 		</h1>
