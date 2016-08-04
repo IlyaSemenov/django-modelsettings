@@ -5,7 +5,7 @@ from django.dispatch import receiver
 
 def collect_settings():
 	# Relative models import here allows the module to be imported during Django app init phase
-	from .models import Root, get_settings_models
+	from .models import Settings, get_settings_models
 
 	selectors = []
 	select_related = []
@@ -14,7 +14,7 @@ def collect_settings():
 		select_related.append(field)
 		selectors.append((app, model, field))
 
-	qs = Root.objects.select_related(*select_related)
+	qs = Settings.objects.select_related(*select_related)
 	root = qs.first()
 	if not root:
 		root = qs.get_or_create()[0]
@@ -35,7 +35,6 @@ def collect_settings():
 class CollectedSettings(object):
 	def __init__(self):
 		self.settings = None
-		self.django = django.conf.settings
 
 	def __getattr__(self, item):
 		if self.settings is None:
@@ -48,6 +47,9 @@ class CollectedSettings(object):
 
 settings = CollectedSettings()
 
+settings.django = django.conf.settings
+django.conf.settings.db = settings
+print("db", django.conf.settings.db)
 
 @receiver(request_finished)
 def on_request_finished(sender, **kwargs):

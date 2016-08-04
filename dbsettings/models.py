@@ -2,13 +2,13 @@ from django.apps import apps
 from django.db import models
 
 
-class Root(models.Model):
+class Settings(models.Model):
 	class Meta:
 		verbose_name = verbose_name_plural = 'settings'
 
 
-class BaseSettings(models.Model):
-	root = models.OneToOneField(Root, primary_key=True, related_name='%(app_label)s_%(class)s', editable=False)
+class AppSettings(models.Model):
+	root = models.OneToOneField(Settings, primary_key=True, related_name='%(app_label)s_%(class)s', editable=False)
 	settings_object_name = None
 
 	class Meta:
@@ -24,5 +24,5 @@ class BaseSettings(models.Model):
 def get_settings_models():
 	for app in apps.get_app_configs():
 		for model in app.get_models():
-			if issubclass(model, BaseSettings) and not model._meta.abstract:
+			if issubclass(model, AppSettings) and not model._meta.abstract:
 				yield app, model

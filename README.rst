@@ -62,9 +62,9 @@ Add ``Settings`` class in your application:
 
 	# blog/models.py
 
-	from dbsettings.models import BaseSettings
+	from dbsettings.models import AppSettings
 
-	class Settings(BaseSettings):
+	class Settings(AppSettings):
 		contact_email = models.EmailField(default="info@localhost")
 		update_interval = models.PositiveIntegerField(null=True, default=10, help_text="Update interval in seconds")
 		facebook_app_id = models.CharField("Facebook App ID", max_length=32, blank=True)
@@ -77,19 +77,7 @@ Create the corresponding database tables:
 	./manage.py makemigrations && ./manage.py migrate
 
 
-In your business logic code, access settings directly:
-
-.. code:: python
-
-	from dbsettings import settings
-
-	print(settings.blog.contact_email)
-
-	settings.blog.update_interval = 60
-	settings.blog.save()
-
-
-...or via ``django.conf.settings.db`` shortcut:
+In your business logic code, access settings via ``django.conf.settings.db``:
 
 .. code:: python
 
@@ -101,26 +89,26 @@ In your business logic code, access settings directly:
 	settings.db.blog.save()
 
 
-Admin area
-----------
-
-Enable the admin area page by adding a route:
+or directly:
 
 .. code:: python
 
-	# urls.py
+	from dbsettings import settings
 
-	import dbsettings.urls
+	print(settings.blog.contact_email)
 
-	urlpatterns = [
-		url(r'^admin/settings/', include(dbsettings.urls)),
-		...
-	]
+	settings.blog.update_interval = 60
+	settings.blog.save()
+
+	print(settings.django.SECRET_KEY)  # shortcut to django.conf.settings
 
 
-The settings editor will now be available under Django Admin > Settings > Settings.
+Admin area
+----------
 
-You can also add a direct link with ``<a href="{% url 'dbsettings' %}">{% trans "Settings" %}</a>`` (e.g. in your ``admin/base_site.html`` overrides).
+The settings editor will be automatically added at Django Admin > Settings > Settings.
+
+You can also add a direct link with ``<a href="{% url 'admin:dbsettings_settings_changelist' %}">{% trans "Settings" %}</a>`` (e.g. in your ``admin/base_site.html`` overrides).
 
 
 Several groups of settings per application
@@ -132,15 +120,15 @@ It is possible to split settings into several groups within one application.
 
 	# blog/models.py
 
-	from dbsettings.models import BaseSettings
+	from dbsettings.models import AppSettings
 
-	class Settings(BaseSettings):
+	class Settings(AppSettings):
 		option1 = models.IntegerField()
 
-	class Foo(BaseSettings):
+	class Foo(AppSettings):
 		option2 = models.IntegerField()
 
-	class Bar(BaseSettings):
+	class Bar(AppSettings):
 		option3 = models.IntegerField()
 
 
