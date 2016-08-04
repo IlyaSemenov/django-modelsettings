@@ -1,9 +1,7 @@
 # coding=utf-8
-from setuptools import setup
+"""Define Django application settings with Django ORM models and edit them in the admin area."""
 
-"""
-Define Django application settings with Django ORM models and edit them in the admin area.
-"""
+from setuptools import setup
 
 setup(
 	name='django-modelsettings',
