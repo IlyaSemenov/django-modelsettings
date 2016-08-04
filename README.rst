@@ -104,7 +104,7 @@ In your business logic code, access settings directly:
 Admin area
 ----------
 
-Enable the admin area by adding a route:
+Enable the admin area page by adding a route:
 
 .. code:: python
 
@@ -118,7 +118,7 @@ Enable the admin area by adding a route:
 	]
 
 
-The settings will be available under Admin > Settings > Settings.
+The settings editor will now be available under Django Admin > Settings > Settings.
 
 You can also add a direct link with ``<a href="{% url 'dbsettings' %}">{% trans "Settings" %}</a>`` (e.g. in your ``admin/base_site.html`` overrides).
 
