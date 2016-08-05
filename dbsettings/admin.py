@@ -32,7 +32,7 @@ class SettingsAdmin(admin.ModelAdmin):
 		for app, model in get_settings_models():
 			# TODO: check permissions for specific models
 			instance = getattr(settings, model._get_settings_object_name())
-			model_admin = admin.ModelAdmin(model, None)  # TODO: allow to override
+			model_admin = admin.ModelAdmin(model, self.admin_site)  # TODO: allow to override
 			form_class = model_admin.get_form(request, instance)
 			form = form_class(
 				prefix=model._get_settings_object_name(),
