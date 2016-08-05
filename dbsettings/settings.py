@@ -49,7 +49,6 @@ settings = CollectedSettings()
 
 settings.django = django.conf.settings
 django.conf.settings.db = settings
-print("db", django.conf.settings.db)
 
 @receiver(request_finished)
 def on_request_finished(sender, **kwargs):
