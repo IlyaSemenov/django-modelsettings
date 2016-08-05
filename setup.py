@@ -1,11 +1,10 @@
-# coding=utf-8
 """Define Django application settings with Django ORM models and edit them in the admin area."""
 
 from setuptools import setup
 
 setup(
 	name='django-modelsettings',
-	version='0.3.0',
+	version='0.3.1',
 	url='https://github.com/IlyaSemenov/django-modelsettings',
 	license='BSD',
 	author='Ilya Semenov',
