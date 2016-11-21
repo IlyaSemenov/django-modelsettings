@@ -4,7 +4,7 @@ from setuptools import setup, find_packages
 
 setup(
 	name='django-modelsettings',
-	version='0.4.0',
+	version='0.5.0',
 	url='https://github.com/IlyaSemenov/django-modelsettings',
 	license='BSD',
 	author='Ilya Semenov',
