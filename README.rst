@@ -110,9 +110,9 @@ or directly:
 Admin area
 ----------
 
-The settings editor will be automatically added at Django Admin > Settings > Settings.
+The settings editor will be automatically added at Django Admin > Settings.
 
-You can also add a direct link with ``<a href="{% url 'admin:dbsettings_settings_changelist' %}">{% trans "Settings" %}</a>`` (e.g. in your ``admin/base_site.html`` overrides).
+You can also add a direct link with ``<a href="{% url 'admin:dbsettings_root_changelist' %}">{% trans "Settings" %}</a>`` (e.g. in your ``admin/base_site.html`` overrides).
 
 
 Several groups of settings per application
