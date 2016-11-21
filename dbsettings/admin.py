@@ -4,7 +4,7 @@ from django.contrib.admin.helpers import Fieldset
 from django.http import Http404
 from django.shortcuts import redirect, render
 
-from .models import Settings, get_settings_models
+from .models import Root, get_settings_models
 from .settings import settings
 
 
@@ -13,7 +13,7 @@ class FakeOpts(object):
 		return None
 
 
-@admin.register(Settings)
+@admin.register(Root)
 class SettingsAdmin(admin.ModelAdmin):
 	def has_add_permission(self, request):
 		return False

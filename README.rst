@@ -30,8 +30,6 @@ Requirements
 
 The latest version supports Django 1.7-1.9.
 
-django-modelsettings 0.1.x had a different, more hackish API and supported Django 1.4-1.8.
-
 
 Installation
 ============
@@ -39,6 +37,12 @@ Installation
 ::
 
 	pip install django-modelsettings
+
+
+Migration from 0.1.x
+--------------------
+
+django-modelsettings 0.1.x had a different API and supported Django 1.4-1.8. To migrate from 0.1.x, run ``manage.py migrate dbsettings --fake``.
 
 
 Usage

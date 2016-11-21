@@ -1,6 +1,6 @@
 def collect_settings():
 	# Relative models import here allows the module to be imported during Django app init phase
-	from .models import Settings, get_settings_models
+	from .models import Root, get_settings_models
 
 	selectors = []
 	select_related = []
@@ -9,7 +9,7 @@ def collect_settings():
 		select_related.append(field)
 		selectors.append((app, model, field))
 
-	qs = Settings.objects.select_related(*select_related)
+	qs = Root.objects.select_related(*select_related)
 	root = qs.first()
 	if not root:
 		root = qs.get_or_create()[0]

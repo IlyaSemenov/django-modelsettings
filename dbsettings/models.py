@@ -2,13 +2,13 @@ from django.apps import apps
 from django.db import models
 
 
-class Settings(models.Model):
+class Root(models.Model):
 	class Meta:
 		verbose_name = verbose_name_plural = 'settings'
 
 
 class AppSettings(models.Model):
-	root = models.OneToOneField(Settings, primary_key=True, related_name='%(app_label)s_%(class)s', editable=False)
+	root = models.OneToOneField(Root, primary_key=True, related_name='%(app_label)s_%(class)s', editable=False)
 	settings_object_name = None
 
 	class Meta:
