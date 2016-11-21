@@ -1,6 +1,7 @@
 from django.contrib import admin
 from django.contrib import messages
 from django.contrib.admin.helpers import Fieldset
+from django.forms.widgets import Media
 from django.http import Http404
 from django.shortcuts import redirect, render
 
@@ -14,7 +15,7 @@ class FakeOpts(object):
 
 
 @admin.register(Root)
-class SettingsAdmin(admin.ModelAdmin):
+class RootSettingsAdmin(admin.ModelAdmin):
 	def has_add_permission(self, request):
 		return False
 
@@ -28,11 +29,12 @@ class SettingsAdmin(admin.ModelAdmin):
 	def changelist_view(self, request, extra_context=None):
 		forms = []
 		fieldsets = []
+		media = Media()
 
 		for app, model in get_settings_models():
 			# TODO: check permissions for specific models
 			instance = getattr(settings, model._get_settings_object_name())
-			model_admin = admin.ModelAdmin(model, self.admin_site)  # TODO: allow to override
+			model_admin = self.get_model_admin(model)
 			form_class = model_admin.get_form(request, instance)
 			form = form_class(
 				prefix=model._get_settings_object_name(),
@@ -48,6 +50,8 @@ class SettingsAdmin(admin.ModelAdmin):
 			)
 			forms.append(form)
 			fieldsets.append(fieldset)
+			media += model_admin.media
+			media += form.media
 
 		if not forms:
 			raise Http404
@@ -69,7 +73,7 @@ class SettingsAdmin(admin.ModelAdmin):
 			'has_add_permission': False,
 			'has_delete_permission': False,
 			'has_change_permission': True,
-			# 'media':  # TODO: merge model_admin media
+			'media': media,
 		}
 		if extra_context:
 			context.update(extra_context)
@@ -77,3 +81,30 @@ class SettingsAdmin(admin.ModelAdmin):
 
 	def change_view(self, request, object_id, form_url='', extra_context=None):
 		raise Http404
+
+	_model_admins = {}
+
+	def get_model_admin(self, model):
+		model_admin = self._model_admins.get(model) or admin.ModelAdmin
+		return model_admin(model, self.admin_site)
+
+	@classmethod
+	def register_model_admin(cls, model, model_admin):
+		cls._model_admins[model] = model_admin
+
+	@classmethod
+	def unregister_model_admin(cls, model):
+		del cls._model_admins[model]
+
+	@classmethod
+	def register(cls, model):
+		"""
+		Decorator usage:
+
+		@SettingsAdmin.register(MySettings)
+		class MySettingsAdmin(admin.Model):
+			...
+		"""
+		def _register(model_admin):
+			return cls.register_model_admin(model, model_admin)
+		return _register

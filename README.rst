@@ -112,7 +112,31 @@ Admin area
 
 The settings editor will be automatically added at Django Admin > Settings.
 
-You can also add a direct link with ``<a href="{% url 'admin:dbsettings_root_changelist' %}">{% trans "Settings" %}</a>`` (e.g. in your ``admin/base_site.html`` overrides).
+You can also add a direct link (e.g. in your ``admin/base_site.html`` overrides):
+
+.. code:: django
+
+	<a href="{% url 'admin:dbsettings_root_changelist' %}">{% trans "Settings" %}</a>
+
+
+Customizing admin area form
+~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+To provide a custom admin form for your settings model, create a ``ModelAdmin`` class and register it:
+
+.. code:: python
+
+	# blog/admin.py
+
+	from blog.models import Settings
+	from dbsettings.admin import RootSettingsAdmin
+
+	@RootSettingsAdmin.register(Settings)
+	class SettingsAdmin(admin.ModelAdmin):
+		def formfield_for_dbfield(self, db_field, **kwargs):
+			if db_field.name == 'welcome_text':
+				kwargs['widget'] = SummernoteWidget()
+			return super().formfield_for_dbfield(db_field, **kwargs)
 
 
 Several groups of settings per application
