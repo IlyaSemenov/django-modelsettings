@@ -8,7 +8,7 @@ class Root(models.Model):
 
 
 class AppSettings(models.Model):
-	root = models.OneToOneField(Root, primary_key=True, related_name='%(app_label)s_%(class)s', editable=False)
+	root = models.OneToOneField(Root, primary_key=True, related_name='%(app_label)s_%(class)s', editable=False, on_delete=models.PROTECT)
 	settings_object_name = None
 
 	class Meta:

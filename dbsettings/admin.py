@@ -10,6 +10,9 @@ from .settings import settings
 
 
 class FakeOpts(object):
+	app_label = 'fake_label'
+	object_name = 'fake_name'
+
 	def get_ordered_objects(self):
 		return None
 
@@ -67,12 +70,15 @@ class RootSettingsAdmin(admin.ModelAdmin):
 			'forms': forms,
 			'fieldsets': fieldsets,
 			'opts': FakeOpts(),
+			'add': False,
 			'change': True,
 			'is_popup': False,
 			'save_as': False,
+			'has_view_permission': True,
 			'has_add_permission': False,
 			'has_delete_permission': False,
 			'has_change_permission': True,
+			'has_editable_inline_admin_formsets': False,
 			'media': media,
 		}
 		if extra_context:
