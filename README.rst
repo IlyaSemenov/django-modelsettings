@@ -167,3 +167,33 @@ It is possible to split settings into several groups within one application.
 	print(settings.blog.option1)
 	print(settings.blog_foo.option2)
 	print(settings.blog_bar.option3)
+
+
+Templates
+---------
+
+Settings can be used in Django templates too, if you include a context processor:
+
+.. code:: python
+
+	# settings.py
+
+	TEMPLATES = [
+		{
+			# ...
+			OPTIONS": {
+				"context_processors": [
+					# ...
+					"dbsettings.context_processors.settings"
+		},
+	]
+
+You then can access settings in your template:
+
+.. code:: django
+
+    # blog/templates/blog_detail.html
+
+    {% if settings.blog.show_title %}
+      {{ title }}
+    {% endif %}
