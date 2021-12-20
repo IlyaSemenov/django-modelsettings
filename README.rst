@@ -60,7 +60,7 @@ Add ``dbsettings`` to ``INSTALLED_APPS``:
 	]
 
 
-Add ``Settings`` class in your application:
+Add a class named ``Settings`` to your application (the name **must** be 'Settings'):
 
 .. code:: python
 
