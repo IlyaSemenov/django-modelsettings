@@ -28,7 +28,7 @@ Key points
 Requirements
 ============
 
-The latest version supports Django 1.7-1.9.
+The latest version supports Django 2.2-4.0.
 
 
 Installation
