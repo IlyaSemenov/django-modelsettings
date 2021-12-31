@@ -60,7 +60,7 @@ Add ``dbsettings`` to ``INSTALLED_APPS``:
 	]
 
 
-Add a class named ``Settings`` to your application (the name **must** be 'Settings'):
+Add one or more settings classes (inheriting AppSettings) to your application:
 
 .. code:: python
 
@@ -72,6 +72,10 @@ Add a class named ``Settings`` to your application (the name **must** be 'Settin
 		contact_email = models.EmailField(default="info@localhost")
 		update_interval = models.PositiveIntegerField(null=True, default=10, help_text="Update interval in seconds")
 		facebook_app_id = models.CharField("Facebook App ID", max_length=32, blank=True)
+
+	class SpecialSettings(AppSettings):
+		allow_contact_form = models.BooleanField(default=True)
+
 
 
 Create the corresponding database tables:
