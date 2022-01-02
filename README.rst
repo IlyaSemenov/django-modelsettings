@@ -60,7 +60,7 @@ Add ``dbsettings`` to ``INSTALLED_APPS``:
 	]
 
 
-Add a class named ``Settings`` to your application (the name **must** be 'Settings'):
+Add a class named ``Settings`` to your application:
 
 .. code:: python
 
@@ -73,6 +73,7 @@ Add a class named ``Settings`` to your application (the name **must** be 'Settin
 		update_interval = models.PositiveIntegerField(null=True, default=10, help_text="Update interval in seconds")
 		facebook_app_id = models.CharField("Facebook App ID", max_length=32, blank=True)
 
+Note that the class name **must** be ``Settings`` for the access shortcuts to work.
 
 Create the corresponding database tables:
 
