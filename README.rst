@@ -197,3 +197,14 @@ You then can access settings in your template:
     {% if settings.blog.show_title %}
       {{ title }}
     {% endif %}
+
+
+Testing
+-------
+
+`pytest https://pytest.org`_ is used for testing. To start the test suite, just install
+pytest locally using pip and call it in the repository's root directory:
+
+.. code:: bash
+
+    pytest
